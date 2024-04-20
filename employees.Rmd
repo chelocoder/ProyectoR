@@ -36,6 +36,560 @@ url <- "https://raw.githubusercontent.com/chelocoder/ProyectoR/main/Employee.csv
 datos <- read.csv(url)
 head(datos)
 ```
+
+## 1. Estadísticos Descriptivos
+
+Obtenemos los estadísticos descriptivos de todas las variables del dataset
+
+```{r}
+# Obtener estadísticos descriptivos
+summary_stats <- summary(datos)
+
+# Mostrar estadísticos descriptivos
+print(summary_stats)
+```
+
+## 1.1. Tendecia Central
+**1.1.1 Variables Numéricas**
+
+Obtenemos los Estadísticos descriptivos de solamente las variables numéricas
+
+```{r, echo = FALSE}
+# Cargar la librería dplyr para manipulación de datos
+suppressPackageStartupMessages(library(dplyr))
+
+# Seleccionar solo las columnas numéricas
+numeric_data <- datos %>% 
+  select_if(is.numeric)
+
+# Obtener los estadísticos descriptivos
+summary_stats <- summary(numeric_data)
+
+# Mostrar los estadísticos descriptivos
+print(summary_stats)
+```
+Obtenemos los estadísticos descriptivos de cada variable:
+
+**a.Variable JoiningYear**
+
+**a.1.Valor Mínimo:**
+```{r}
+# Obtener el valor mínimo
+min <- min(datos$JoiningYear)
+
+# Imprimir el valor mínimo de la columna
+print(min)
+```
+
+**a.2.Primer Cuartil:**
+
+```{r}
+# Obtener el primer cuartil
+q1 <- quantile(datos$JoiningYear, 0.25)
+
+# Imprimir el primer cuartil
+print(q1)
+```
+**a.3. Mediana:**
+
+```{r}
+# Calcular la mediana de la variable
+mediana_joining_year <- median(datos$JoiningYear)
+
+# Imprimir la mediana de la variable
+print(mediana_joining_year)
+```
+**a.4.Tercer Cuartil:**
+```{r}
+# Obtener el tercer cuartil
+q3 <- quantile(datos$JoiningYear, 0.75)
+
+# Imprimir el tercer cuartil
+print(q3)
+```
+**a.5.Valor Máximo:**
+```{r}
+# Calcular el valor máximo de la variable
+max <- max(datos$JoiningYear)
+
+# Imprimir el valor máximo de la variable
+print(max)
+```
+
+**a.6.Recorrido (Rango):**
+```{r}
+# Calcular el rango de la variable
+rango <- max(datos$JoiningYear) - min(datos$JoiningYear)
+
+# Imprimir el rango de la variable "JoiningYear"
+print(rango)
+```
+
+**a.7.Moda:**
+```{r}
+# Calcular la moda de la variable
+moda <- as.numeric(names(sort(-table(datos$JoiningYear))[1]))
+
+# Imprimir la moda de la variable
+print(moda)
+```
+
+**a.8.Frecuencia:**
+```{r}
+# Calcular la frecuencia de la variable
+frecuencia <- table(datos$JoiningYear)
+
+# Imprimir la frecuencia de la variable
+print(frecuencia)
+
+#Imprimir la frecuencia máxima
+frecuencia_maxima <- max(frecuencia)
+print(frecuencia_maxima)
+```
+
+**b.Variable PaymentTier**
+
+**b.1.Valor Mínimo:**
+```{r}
+# Obtener el valor mínimo
+min <- min(datos$PaymentTier)
+
+# Imprimir el valor mínimo de la columna
+print(min)
+```
+
+**b.2.Primer Cuartil:**
+
+```{r}
+# Obtener el primer cuartil
+q1 <- quantile(datos$PaymentTier, 0.25)
+
+# Imprimir el primer cuartil
+print(q1)
+```
+**b.3. Mediana:**
+
+```{r}
+# Calcular la mediana de la variable
+mediana <- median(datos$PaymentTier)
+
+# Imprimir la mediana de la variable
+print(mediana)
+```
+**b.4.Tercer Cuartil:**
+```{r}
+# Obtener el tercer cuartil
+q3 <- quantile(datos$PaymentTier, 0.75)
+
+# Imprimir el tercer cuartil
+print(q3)
+```
+**b.5.Valor Máximo:**
+```{r}
+# Calcular el valor máximo de la variable
+max <- max(datos$PaymentTier)
+
+# Imprimir el valor máximo de la variable
+print(max)
+```
+
+**b.6.Recorrido (Rango):**
+```{r}
+# Calcular el rango de la variable
+rango <- max(datos$PaymentTier) - min(datos$PaymentTier)
+
+# Imprimir el rango de la variable
+print(rango)
+```
+
+**b.7.Moda:**
+```{r}
+# Calcular la moda de la variable
+moda <- as.numeric(names(sort(-table(datos$PaymentTier))[1]))
+
+# Imprimir la moda de la variable
+print(moda)
+```
+
+**b.8.Frecuencia:**
+```{r}
+# Calcular la frecuencia de la variable
+frecuencia <- table(datos$PaymentTier)
+
+# Imprimir la frecuencia de la variable
+print(frecuencia)
+
+#Imprimir la frecuencia máxima
+frecuencia_maxima <- max(frecuencia)
+print(frecuencia_maxima)
+```
+
+**c.Variable Age**
+
+**c.1.Valor Mínimo:**
+```{r}
+# Obtener el valor mínimo
+min <- min(datos$Age        )
+
+# Imprimir el valor mínimo de la columna
+print(min)
+```
+
+**c.2.Primer Cuartil:**
+
+```{r}
+# Obtener el primer cuartil
+q1 <- quantile(datos$Age        , 0.25)
+
+# Imprimir el primer cuartil
+print(q1)
+```
+**c.3. Mediana:**
+
+```{r}
+# Calcular la mediana de la variable
+mediana <- median(datos$Age)
+
+# Imprimir la mediana de la variable
+print(mediana)
+```
+**c.4.Tercer Cuartil:**
+```{r}
+# Obtener el tercer cuartil
+q3 <- quantile(datos$PaymentTier, 0.75)
+
+# Imprimir el tercer cuartil
+print(q3)
+```
+**c.5.Valor Máximo:**
+```{r}
+# Calcular el valor máximo de la variable
+max <- max(datos$Age        )
+
+# Imprimir el valor máximo de la variable
+print(max)
+```
+
+**c.6.Recorrido (Rango):**
+```{r}
+# Calcular el rango de la variable
+rango <- max(datos$Age) - min(datos$Age)
+
+# Imprimir el rango de la variable
+print(rango)
+```
+
+**c.7.Moda:**
+```{r}
+# Calcular la moda de la variable
+moda <- as.numeric(names(sort(-table(datos$Age))[1]))
+
+# Imprimir la moda de la variable
+print(moda)
+```
+
+**c.8.Frecuencia:**
+```{r}
+# Calcular la frecuencia de la variable
+frecuencia <- table(datos$Age)
+
+# Imprimir la frecuencia de la variable
+print(frecuencia)
+
+#Imprimir la frecuencia máxima
+frecuencia_maxima <- max(frecuencia)
+print(frecuencia_maxima)
+```
+**d.Variable ExperienceInCurrentDomain**
+
+**d.1.Valor Mínimo:**
+```{r}
+# Obtener el valor mínimo
+min <- min(datos$ExperienceInCurrentDomain)
+
+# Imprimir el valor mínimo de la columna
+print(min)
+```
+
+**d.2.Primer Cuartil:**
+
+```{r}
+# Obtener el primer cuartil
+q1 <- quantile(datos$ExperienceInCurrentDomain, 0.25)
+
+# Imprimir el primer cuartil
+print(q1)
+```
+**d.3. Mediana:**
+
+```{r}
+# Calcular la mediana de la variable
+mediana <- median(datos$ExperienceInCurrentDomain)
+
+# Imprimir la mediana de la variable
+print(mediana)
+```
+**d.4.Tercer Cuartil:**
+```{r}
+# Obtener el tercer cuartil
+q3 <- quantile(datos$ExperienceInCurrentDomain, 0.75)
+
+# Imprimir el tercer cuartil
+print(q3)
+```
+**d.5.Valor Máximo:**
+```{r}
+# Calcular el valor máximo de la variable
+max <- max(datos$ExperienceInCurrentDomain)
+
+# Imprimir el valor máximo de la variable
+print(max)
+```
+
+**d.6.Recorrido (Rango):**
+```{r}
+# Calcular el rango de la variable
+rango <- max(datos$ExperienceInCurrentDomain) - min(datos$ExperienceInCurrentDomain)
+
+# Imprimir el rango de la variable
+print(rango)
+```
+
+**d.7.Moda:**
+```{r}
+# Calcular la moda de la variable
+moda <- as.numeric(names(sort(-table(datos$ExperienceInCurrentDomain))[1]))
+
+# Imprimir la moda de la variable
+print(moda)
+```
+
+**d.8.Frecuencia:**
+```{r}
+# Calcular la frecuencia de la variable
+frecuencia <- table(datos$ExperienceInCurrentDomain)
+
+# Imprimir la frecuencia de la variable
+print(frecuencia)
+
+#Imprimir la frecuencia máxima
+frecuencia_maxima <- max(frecuencia)
+print(frecuencia_maxima)
+```
+**e.Variable LeaveOrNot**
+
+**e.1.Valor Mínimo:**
+```{r}
+# Obtener el valor mínimo
+min <- min(datos$LeaveOrNot)
+
+# Imprimir el valor mínimo de la columna
+print(min)
+```
+
+**e.2.Primer Cuartil:**
+
+```{r}
+# Obtener el primer cuartil
+q1 <- quantile(datos$LeaveOrNot, 0.25)
+
+# Imprimir el primer cuartil
+print(q1)
+```
+**e.3. Mediana:**
+
+```{r}
+# Calcular la mediana de la variable
+mediana <- median(datos$LeaveOrNot)
+
+# Imprimir la mediana de la variable
+print(mediana)
+```
+**e.4.Tercer Cuartil:**
+```{r}
+# Obtener el tercer cuartil
+q3 <- quantile(datos$LeaveOrNot, 0.75)
+
+# Imprimir el tercer cuartil
+print(q3)
+```
+**e.5.Valor Máximo:**
+```{r}
+# Calcular el valor máximo de la variable
+max <- max(datos$LeaveOrNot)
+
+# Imprimir el valor máximo de la variable
+print(max)
+```
+
+**e.6.Recorrido (Rango):**
+```{r}
+# Calcular el rango de la variable
+rango <- max(datos$LeaveOrNot) - min(datos$LeaveOrNot)
+
+# Imprimir el rango de la variable
+print(rango)
+```
+
+**e.7.Moda:**
+```{r}
+# Calcular la moda de la variable
+moda <- as.numeric(names(sort(-table(datos$LeaveOrNot))[1]))
+
+# Imprimir la moda de la variable
+print(moda)
+```
+
+**e.8.Frecuencia:**
+```{r}
+# Calcular la frecuencia de la variable
+frecuencia <- table(datos$LeaveOrNot)
+
+# Imprimir la frecuencia de la variable
+print(frecuencia)
+
+#Imprimir la frecuencia máxima
+frecuencia_maxima <- max(frecuencia)
+print(frecuencia_maxima)
+```
+
+**1.1.2 Variables Categóricas**
+
+Obtenemos los estadísticos descriptivos de las variables categóricas
+
+```{r}
+# Seleccionar solo las columnas categóricas
+categorical_data <- datos %>% 
+  select_if(is.character)
+
+# Obtener estadísticos descriptivos para las variables categóricas
+summary_stats_categorical <- summary(categorical_data)
+
+# Imprimir los estadísticos descriptivos
+print(summary_stats_categorical)
+```
+Obtenemos los estadísticos descriptivos de cada variable:
+
+**a.Variable Education**
+
+**a.1.Frecuencia:**
+
+```{r}
+# Calcular la frecuencia de cada valor en la variable categórica
+frecuencia <- table(datos$Education)
+
+# Imprimir los valores y sus frecuencias
+print(frecuencia)
+```
+**a.2.Moda:**
+```{r}
+# Calcular la frecuencia de cada valor en la variable categórica
+frecuencia <- table(datos$Education)
+
+# Encontrar el valor que más se repite
+valor_mas_repetido <- names(frecuencia)[which.max(frecuencia)]
+
+# Imprimir el valor que más se repite
+print(valor_mas_repetido)
+```
+**b.Variable City**
+
+**b.1.Frecuencia:**
+
+```{r}
+# Calcular la frecuencia de cada valor en la variable categórica
+frecuencia <- table(datos$City)
+
+# Imprimir los valores y sus frecuencias
+print(frecuencia)
+```
+**b.2.Moda:**
+```{r}
+# Calcular la frecuencia de cada valor en la variable categórica
+frecuencia <- table(datos$City)
+
+# Encontrar el valor que más se repite
+valor_mas_repetido <- names(frecuencia)[which.max(frecuencia)]
+
+# Imprimir el valor que más se repite
+print(valor_mas_repetido)
+```
+**c.Variable Gender**
+
+**c.1.Frecuencia:**
+
+```{r}
+# Calcular la frecuencia de cada valor en la variable categórica
+frecuencia <- table(datos$Gender)
+
+# Imprimir los valores y sus frecuencias
+print(frecuencia)
+```
+**c.2.Moda:**
+```{r}
+# Calcular la frecuencia de cada valor en la variable categórica
+frecuencia <- table(datos$Gender)
+
+# Encontrar el valor que más se repite
+valor_mas_repetido <- names(frecuencia)[which.max(frecuencia)]
+
+# Imprimir el valor que más se repite
+print(valor_mas_repetido)
+```
+**d.Variable EverBenched**
+
+**d.1.Frecuencia:**
+
+```{r}
+# Calcular la frecuencia de cada valor en la variable categórica
+frecuencia <- table(datos$EverBenched)
+
+# Imprimir los valores y sus frecuencias
+print(frecuencia)
+```
+**d.2.Moda:**
+```{r}
+# Calcular la frecuencia de cada valor en la variable categórica
+frecuencia <- table(datos$EverBenched)
+
+# Encontrar el valor que más se repite
+valor_mas_repetido <- names(frecuencia)[which.max(frecuencia)]
+
+# Imprimir el valor que más se repite
+print(valor_mas_repetido)
+```
+
+## 1.2. Dispersión
+**1.1.1 Variables Numéricas**
+
+```{r}
+# Seleccionar solo las columnas numéricas
+numeric_data <- datos %>% 
+  select_if(is.numeric)
+
+# Calcular el rango
+rango <- apply(numeric_data, 2, function(x) max(x) - min(x))
+
+# Calcular la varianza
+varianza <- apply(numeric_data, 2, var)
+
+# Calcular la desviación estándar
+desviacion_estandar <- apply(numeric_data, 2, sd)
+
+# Crear un dataframe con los resultados
+estadisticos_dispersion <- data.frame(
+  Variable = names(numeric_data),
+  Rango = rango,
+  Varianza = varianza,
+  Desviacion_Estandar = desviacion_estandar
+)
+
+# Imprimir los estadísticos de dispersión
+print(estadisticos_dispersion)
+```
+
+## 2. Análisis Exploratorio de Datos (EDA)
+
 ```{r count-missing-data, results='markup'}
 # Conteo de datos faltantes en cada columna
 missing_data_counts <- sapply(datos, function(x) sum(is.na(x)))
@@ -281,27 +835,37 @@ cor_matrix
 corrplot(cor_matrix, method="circle", type="upper", order="hclust",
          tl.col="black", tl.srt=45)  # Rotate labels for better readability
 ```
-
+## 3. Estadísticos Inferenciales
 
 ```{r}
-###### ESTADISTICOS INFERENCIALES
-# VER RELACIONES ENTRE VARIABLES NUMERICAS (JOINING YEAR, AGE, EXPERIENCE IN CURRENT DOMAIN, PAYMENT TIER) Y TARGET (LEAVE OR NOT) CON UN MAPA DE CALOR
+#install.packages("ggplot2")
+#install.packages("conflicted")
+```
 
+```{r}
+# Cargamos las librerias necesarias
+library(conflicted)
+library(tidyverse)
 library(ggplot2)
 library(reshape2)
+```
 
-# CARGALOS LOS DATOS
-df <- Employee
-df
+```{r}
+# CARGAMOS LOS DATOS
+df <- datos
+```
 
-# CALCULAMOS LA MATRIZ DE CORRELACION
+**CALCULAMOS LA MATRIZ DE CORRELACION**
 
+```{r}
 cor_matrix <- cor(df[, sapply(df, is.numeric)])
 cor_matrix
+```
 
-# VISUALIZAMOS LA MATRIZ DE CORRELACION
+**VISUALIZAMOS LA MATRIZ DE CORRELACION**
+
+```{r}
 hot_matrix <- melt(cor_matrix)
-
 ggplot(hot_matrix, aes(Var1, Var2, fill=value)) + 
   geom_tile(color="white") +
   scale_fill_gradient2(low = "blue", high = "red", mid = "white", 
@@ -312,109 +876,117 @@ ggplot(hot_matrix, aes(Var1, Var2, fill=value)) +
   theme(axis.text.x = element_text(angle = 45, vjust = 1, 
                                    size = 12, hjust = 1)) +
   coord_fixed()
+```
 
-## La matriz de correlación muestra las siguientes relaciones entre las variables numéricas:
-## La correlación entre las variables no muestra relaciones fuertemente lineales. La mayoría de los coeficientes son cercanos a cero, indicando poca o ninguna correlación lineal.
-## La variable LeaveOrNot tiene una correlación positiva de 0.18 con JoiningYear (año de ingreso), lo que podria indicar que mientras más tiempo lleva un empleado en la empresa, es más probable que decida no dejarla. 
-## La varibale LeaveOrNot tiene una relacion negativa con PaymenTier (nivel de salario) de -0.20, lo  que podría indicar que a menor salario un empleado en la emppresa, es mas probable decida dejar la empresa.
-## Las otras correlaciones son relativamente bajas, sugiriendo que estas variables no están fuertemente influenciadas entre sí en términos lineales.
+**La matriz de correlación muestra las siguientes relaciones entre las variables numéricas:**
 
+-   La correlación entre las variables no muestra relaciones fuertemente lineales. La mayoría de los coeficientes son cercanos a cero, indicando poca o ninguna correlación lineal.
 
-# REALIZAMOS UN BOX PLOT PARA VER LAS RELACIONES ENTRE LA VARIABLE EDAD Y LA VARIABLE TARGET
+-   La variable LeaveOrNot tiene una correlación positiva de 0.18 con JoiningYear (año de ingreso), lo que podria indicar que mientras más tiempo lleva un empleado en la empresa, es más probable que decida no dejarla.
+
+-   La varibale LeaveOrNot tiene una relacion negativa con PaymenTier (nivel de salario) de -0.20, lo que podría indicar que a menor salario un empleado en la emppresa, es mas probable decida dejar la empresa.
+
+-   Las otras correlaciones son relativamente bajas, sugiriendo que estas variables no están fuertemente influenciadas entre sí en términos lineales.
+
+**REALIZAMOS UN BOX PLOT PARA VER LAS RELACIONES ENTRE LA VARIABLE EDAD Y LA VARIABLE TARGET**
+
+```{r}
+ggplot(df, aes(x=LeaveOrNot, y=Age, fill=LeaveOrNot)) +
   geom_boxplot() + 
-  scale_fill_manual(values = c("#00AFBB", "#E7B800")) +
-  labs(title = "Boxplot of Age by LeaveOrNot", x = "LeaveOrNot", y = "Age") +
-  theme_minimal()
+  labs(title = "Boxplot of Age by LeaveOrNot", x = "LeaveOrNot", y = "Age")
+```
 
-# REALIZAMOS UN BOX PLOT PARA VER LAS RELACIONES ENTRE LA VARIABLE EXPERIENCIA EN EL DOMINIO ACTUAL Y LA VARIABLE TARGET 
+**REALIZAMOS UN BOX PLOT PARA VER LAS RELACIONES ENTRE LA VARIABLE ExperienceInCurrentDomain Y LA VARIABLE TARGET**
+
+```{r}
 ggplot(df, aes(x=LeaveOrNot, y=ExperienceInCurrentDomain, fill=LeaveOrNot)) + 
   geom_boxplot() + 
-  scale_fill_manual(values = c("#00AFBB", "#E7B800")) +
-  labs(title = "Boxplot of ExperienceInCurrentDomain by LeaveOrNot", x = "LeaveOrNot", y = "ExperienceInCurrentDomain") +
-  theme_minimal()
+  labs(title = "Boxplot of ExperienceInCurrentDomain by LeaveOrNot", x = "LeaveOrNot", y = "ExperienceInCurrentDomain")
+```
 
-## Edad vs. Dejar la Empresa: No parece haber una diferencia significativa en la edad de los empleados que deciden dejar la empresa y los que se quedan.
-## Experiencia en el Dominio Actual vs. Dejar la Empresa: Similarmente, la experiencia en el dominio actual no muestra una diferencia clara en términos de afectar la decisión de dejar o no la empresa.
+-   Edad vs. Dejar la Empresa: No parece haber una diferencia significativa en la edad de los empleados que deciden dejar la empresa y los que se quedan.
+-   Experiencia en el Dominio Actual vs. Dejar la Empresa: Similarmente, la experiencia en el dominio actual no muestra una diferencia clara en términos de afectar la decisión de dejar o no la empresa.
 
-# GRAFICO DE RELACION ENTRE VARIABLES "City" VS "LeaveOrNot"
+**GRAFICO DE RELACION ENTRE VARIABLES "City" VS "LeaveOrNot"**
+
+```{r}
 ggplot(data = df, aes(x = City, fill = factor(LeaveOrNot))) +  # Define las variables para el eje X y el color
   geom_bar(position = "dodge", stat = "count") +  # Crea barras separadas para cada grupo en LeaveOrNot
   labs(title = "Relación entre Ciudad y Dejar la Empresa",
        x = "Ciudad",
        y = "Número de Empleados",
        fill = "Dejar la Empresa") +  # Personaliza las etiquetas y título
-  scale_fill_manual(values = c("#FF6666", "#6666FF"), labels = c("No", "Sí")) +  # Colores y leyendas personalizados
-  theme_minimal() +  # Aplica un tema minimalista
-  theme(axis.text.x = element_text(angle = 45, hjust = 1))  # Ajusta el texto del eje X para mejorar la visualización
+  theme_minimal()
+```
 
-# GRAFICO DE RELACION ENTRE VARIABLES "Gender" VS "LeaveOrNot"
+-   Del grafico, se puede observar que la mayoria de los empleados que deciden dejar la empresa son de la ciudad de Bangalore y New Delhi.
+-   Por otro lado, la ciudad de Pune tiene una cantidad similar de empleados que deciden dejar la empresa y los que se quedan.
+
+**GRAFICO DE RELACION ENTRE VARIABLES "Gender" VS "LeaveOrNot"**
+
+```{r}
 ggplot(data = df, aes(x = Gender, fill = factor(LeaveOrNot))) +  # Define las variables para el eje X y el color
   geom_bar(position = "dodge", stat = "count") +  # Crea barras separadas para cada grupo en LeaveOrNot
   labs(title = "Relación entre Genero y Dejar la Empresa",
-       x = "Genero",
+       x = "Gender",
        y = "Número de Empleados",
        fill = "Dejar la Empresa") +  # Personaliza las etiquetas y título
-  scale_fill_manual(values = c("#FF6666", "#6666FF"), labels = c("No", "Sí")) +  # Colores y leyendas personalizados
-  theme_minimal() +  # Aplica un tema minimalista
-  theme(axis.text.x = element_text(angle = 45, hjust = 1))  # Ajusta el texto del eje X para mejorar la visualización
+  theme_minimal()
+```
 
-# GRAFICO DE RELACION ENTRE VARIABLES "Education" VS "LeaveOrNot"
+-   Delñ grafico, se puede observar que la mayoria de los empleados que deciden dejar la empresa son de genero masculino.
+-   Por otro lado, la cantidad de empleados que deciden quedarse en la empresa es similar para ambos generos.
+
+**GRAFICO DE RELACION ENTRE VARIABLES "Education" VS "LeaveOrNot"**
+
+```{r}
 ggplot(data = df, aes(x = Education, fill = factor(LeaveOrNot))) +  # Define las variables para el eje X y el color
   geom_bar(position = "dodge", stat = "count") +  # Crea barras separadas para cada grupo en LeaveOrNot
   labs(title = "Relación entre Nivel de Educacion y Dejar la Empresa",
-       x = "Educacion",
+       x = "Education",
        y = "Número de Empleados",
        fill = "Dejar la Empresa") +  # Personaliza las etiquetas y título
-  scale_fill_manual(values = c("#FF6666", "#6666FF"), labels = c("No", "Sí")) +  # Colores y leyendas personalizados
-  theme_minimal() +  # Aplica un tema minimalista
-  theme(axis.text.x = element_text(angle = 45, hjust = 1))  # Ajusta el texto del eje X para mejorar la visualización
+  theme_minimal()
+```
 
+-   Del grafico, se puede observar que la mayoria de los empleados que deciden dejar la empresa tienen un nivel de educacion de "Bachelors".
+-   Por otro lado, la cantidad de empleados que deciden quedarse en la empresa es similar para todos los niveles de educacion Master y PHD.
 
-## Los gráficos de barras muestran las siguientes tendencias en relación a la decisión de dejar la empresa:
+**PRUEBA DE HIPOTESIS**
 
-## Ciudad:
-  ## En Bangalore y Pune, una mayor proporción de empleados parece permanecer en la empresa en comparación con New Delhi.
-## Género:
-  ## La proporción entre hombres y mujeres que dejan la empresa parece ser bastante similar.
-## Educación:
-  ## Los empleados con título de "Masters" y "PHD" parecen tener una menor proporción de salida en comparación con los de "Bachelors".
+-Para determinar si estas diferencias son estadísticamente significativas, procederemos a realizar pruebas de Chi-cuadrado. Estas pruebas nos permitirán evaluar si las diferencias observadas en cada grupo son suficientes para sugerir una dependencia entre las variables categóricas y la decisión de dejar la empresa.
 
-## Para determinar si estas diferencias son estadísticamente significativas, procederemos a realizar pruebas de Chi-cuadrado. 
-## Estas pruebas nos permitirán evaluar si las diferencias observadas en cada grupo son suficientes para sugerir una dependencia entre 
-## las variables categóricas y la decisión de dejar la empresa. 
-
+```{r}
 # PRUEBA DE CHI-CUADRADO PARA CIUDAD
 city_table <- table(df$City, df$LeaveOrNot)
 city_table
 CH2_CITY <- chisq.test(city_table)
-
-# PRUEBA DE CHI-CUADRADO PARA GENERO
-city_table <- table(df$Gender, df$LeaveOrNot)
-city_table
-CH2_GENDER <- chisq.test(city_table)
-
-# PRUEBA DE CHI-CUADRADO PARA EDUCACION
-city_table <- table(df$Education, df$LeaveOrNot)
-city_table
-CH2_EDUCATION <- chisq.test(city_table)
-
-# SHOW IN DATA FRAME THE RESULTS OF CHI-SQUARE TEST 
-results <- data.frame(
-  Variable = c("City", "Gender", "Education"),
-  Chi_Square = c(CH2_CITY$statistic, CH2_GENDER$statistic, CH2_EDUCATION$statistic),
-  P_Value = c(CH2_CITY$p.value, CH2_GENDER$p.value, CH2_EDUCATION$p.value)
-)
-print(results)
-
-## RESULTADOS
-## 1 Ciudad
-## Chi-cuadrado: 206.16 VS P-Valor: 1.710699e-45
-## 2 Género
-## Chi-cuadrado: 225.6954 VS P-Valor: 5.177874e-51
-## 3 Educación
-## Chi-cuadrado: 101.8301 VS P-Valor: 7.724418e-23
-## Dado que los valores de p son extremadamente bajos para las tres pruebas, podemos concluir que hay una asociaciónÇ
-## significativa entre cada una de estas variables categóricas y la decisión de dejar la empresa. Esto indica que tanto la ciudad, 
-## el género como el nivel educativo tienen un impacto en la probabilidad de que un empleado deje la empresa.
+CH2_CITY
 ```
+
+```{r}
+# PRUEBA DE CHI-CUADRADO PARA GENERO
+gender_table <- table(df$Gender, df$LeaveOrNot)
+gender_table
+CH2_GENDER <- chisq.test(gender_table)
+CH2_GENDER
+```
+
+```{r}
+# PRUEBA DE CHI-CUADRADO PARA EDUCACION
+education_table <- table(df$Education, df$LeaveOrNot)
+education_table
+CH2_EDUCATION <- chisq.test(education_table)
+CH2_EDUCATION
+```
+
+-   La prueba de Chi-cuadrado para la variable "City" muestra un valor de p-value \< 2.2e-16, lo que indica que hay una relación significativa entre la ciudad de los empleados y su decisión de dejar la empresa.
+-   La prueba de Chi-cuadrado para la variable "Gender" muestra un valor de p-value \< 2.2e-16, lo que indica que hay una relación significativa entre el género de los empleados y su decisión de dejar la empresa.
+-   La prueba de Chi-cuadrado para la variable "Education" muestra un valor de p-value \< 2.2e-16, lo que indica que hay una relación significativa entre el nivel de educación de los empleados y su decisión de dejar la empresa.
+
+**CONCLUSIONES**
+
+-   Los empleados de la ciudad de Bangalore y New Delhi tienen una mayor propensión a dejar la empresa en comparación con los de Pune.
+-   Los empleados de género masculino tienen una mayor propensión a dejar la empresa en comparación con los de género femenino.
+-   Los empleados con un nivel de educación de "Bachelors" tienen una mayor propensión a dejar la empresa en comparación con los de "Masters" y "PHD".
 
