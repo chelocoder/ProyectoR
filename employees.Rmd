@@ -36,6 +36,12 @@ url <- "https://raw.githubusercontent.com/chelocoder/ProyectoR/main/Employee.csv
 datos <- read.csv(url)
 head(datos)
 ```
+#Aquí la parte de Marcelo
+
+
+#Aquí la parte de Juan
+
+
 ```{r count-missing-data, results='markup'}
 # Conteo de datos faltantes en cada columna
 missing_data_counts <- sapply(datos, function(x) sum(is.na(x)))
