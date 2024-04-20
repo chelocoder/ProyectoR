@@ -1,6 +1,8 @@
 ---
 title: "employee.csv"
-output: html_document
+output:
+  html_document: default
+  pdf_document: default
 date: "2024-04-19"
 ---
 
@@ -11,6 +13,7 @@ knitr::opts_chunk$set(echo = TRUE)
 ## R Markdown
 
 Nos conectamos al dataset:
+
 Columns:
 
 Education: The educational qualifications of employees, including degree, institution, and field of study.
@@ -835,6 +838,7 @@ cor_matrix
 corrplot(cor_matrix, method="circle", type="upper", order="hclust",
          tl.col="black", tl.srt=45)  # Rotate labels for better readability
 ```
+
 ## 3. Estadísticos Inferenciales
 
 ```{r}
