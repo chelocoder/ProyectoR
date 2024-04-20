@@ -224,7 +224,7 @@ ggplot(everbenched_data, aes(x = Var1, y = Freq)) +
   ylab("Frecuencia")
 
 ```
-```{r setup, include=FALSE}
+```{r include=FALSE}
 # Install GGally if it's not already installed
 if (!require("GGally")) install.packages("GGally", dependencies = TRUE)
 
@@ -255,6 +255,7 @@ library(corrplot)
 
 ```{r pairplot-leaveornot-fixed, fig.cap="Pairplot with LeaveOrNot as Hue"}
 # Creating the pairplot using GGally
+library(GGally)
 ggpairs(selected_variables, aes(color = LeaveOrNot), 
         lower = list(continuous = wrap("points", alpha = 0.5, size = 1)),
         diag = list(continuous = wrap("barDiag")),
