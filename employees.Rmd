@@ -281,3 +281,139 @@ corrplot(cor_matrix, method="circle", type="upper", order="hclust",
          tl.col="black", tl.srt=45)  # Rotate labels for better readability
 ```
 
+
+```{r}
+###### ESTADISTICOS INFERENCIALES
+# VER RELACIONES ENTRE VARIABLES NUMERICAS (JOINING YEAR, AGE, EXPERIENCE IN CURRENT DOMAIN, PAYMENT TIER) Y TARGET (LEAVE OR NOT) CON UN MAPA DE CALOR
+
+library(ggplot2)
+library(reshape2)
+
+# CARGALOS LOS DATOS
+df <- Employee
+df
+
+# CALCULAMOS LA MATRIZ DE CORRELACION
+
+cor_matrix <- cor(df[, sapply(df, is.numeric)])
+cor_matrix
+
+# VISUALIZAMOS LA MATRIZ DE CORRELACION
+hot_matrix <- melt(cor_matrix)
+
+ggplot(hot_matrix, aes(Var1, Var2, fill=value)) + 
+  geom_tile(color="white") +
+  scale_fill_gradient2(low = "blue", high = "red", mid = "white", 
+                       midpoint=0, limit=c(-1,1), space="Lab", 
+                       name="Pearson\nCorrelation") +
+  geom_text(aes(Var1, Var2, label = round(value, 2)), color = "black", size = 3) +
+  theme_minimal()+ 
+  theme(axis.text.x = element_text(angle = 45, vjust = 1, 
+                                   size = 12, hjust = 1)) +
+  coord_fixed()
+
+## La matriz de correlación muestra las siguientes relaciones entre las variables numéricas:
+## La correlación entre las variables no muestra relaciones fuertemente lineales. La mayoría de los coeficientes son cercanos a cero, indicando poca o ninguna correlación lineal.
+## La variable LeaveOrNot tiene una correlación positiva de 0.18 con JoiningYear (año de ingreso), lo que podria indicar que mientras más tiempo lleva un empleado en la empresa, es más probable que decida no dejarla. 
+## La varibale LeaveOrNot tiene una relacion negativa con PaymenTier (nivel de salario) de -0.20, lo  que podría indicar que a menor salario un empleado en la emppresa, es mas probable decida dejar la empresa.
+## Las otras correlaciones son relativamente bajas, sugiriendo que estas variables no están fuertemente influenciadas entre sí en términos lineales.
+
+
+# REALIZAMOS UN BOX PLOT PARA VER LAS RELACIONES ENTRE LA VARIABLE EDAD Y LA VARIABLE TARGET
+  geom_boxplot() + 
+  scale_fill_manual(values = c("#00AFBB", "#E7B800")) +
+  labs(title = "Boxplot of Age by LeaveOrNot", x = "LeaveOrNot", y = "Age") +
+  theme_minimal()
+
+# REALIZAMOS UN BOX PLOT PARA VER LAS RELACIONES ENTRE LA VARIABLE EXPERIENCIA EN EL DOMINIO ACTUAL Y LA VARIABLE TARGET 
+ggplot(df, aes(x=LeaveOrNot, y=ExperienceInCurrentDomain, fill=LeaveOrNot)) + 
+  geom_boxplot() + 
+  scale_fill_manual(values = c("#00AFBB", "#E7B800")) +
+  labs(title = "Boxplot of ExperienceInCurrentDomain by LeaveOrNot", x = "LeaveOrNot", y = "ExperienceInCurrentDomain") +
+  theme_minimal()
+
+## Edad vs. Dejar la Empresa: No parece haber una diferencia significativa en la edad de los empleados que deciden dejar la empresa y los que se quedan.
+## Experiencia en el Dominio Actual vs. Dejar la Empresa: Similarmente, la experiencia en el dominio actual no muestra una diferencia clara en términos de afectar la decisión de dejar o no la empresa.
+
+# GRAFICO DE RELACION ENTRE VARIABLES "City" VS "LeaveOrNot"
+ggplot(data = df, aes(x = City, fill = factor(LeaveOrNot))) +  # Define las variables para el eje X y el color
+  geom_bar(position = "dodge", stat = "count") +  # Crea barras separadas para cada grupo en LeaveOrNot
+  labs(title = "Relación entre Ciudad y Dejar la Empresa",
+       x = "Ciudad",
+       y = "Número de Empleados",
+       fill = "Dejar la Empresa") +  # Personaliza las etiquetas y título
+  scale_fill_manual(values = c("#FF6666", "#6666FF"), labels = c("No", "Sí")) +  # Colores y leyendas personalizados
+  theme_minimal() +  # Aplica un tema minimalista
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))  # Ajusta el texto del eje X para mejorar la visualización
+
+# GRAFICO DE RELACION ENTRE VARIABLES "Gender" VS "LeaveOrNot"
+ggplot(data = df, aes(x = Gender, fill = factor(LeaveOrNot))) +  # Define las variables para el eje X y el color
+  geom_bar(position = "dodge", stat = "count") +  # Crea barras separadas para cada grupo en LeaveOrNot
+  labs(title = "Relación entre Genero y Dejar la Empresa",
+       x = "Genero",
+       y = "Número de Empleados",
+       fill = "Dejar la Empresa") +  # Personaliza las etiquetas y título
+  scale_fill_manual(values = c("#FF6666", "#6666FF"), labels = c("No", "Sí")) +  # Colores y leyendas personalizados
+  theme_minimal() +  # Aplica un tema minimalista
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))  # Ajusta el texto del eje X para mejorar la visualización
+
+# GRAFICO DE RELACION ENTRE VARIABLES "Education" VS "LeaveOrNot"
+ggplot(data = df, aes(x = Education, fill = factor(LeaveOrNot))) +  # Define las variables para el eje X y el color
+  geom_bar(position = "dodge", stat = "count") +  # Crea barras separadas para cada grupo en LeaveOrNot
+  labs(title = "Relación entre Nivel de Educacion y Dejar la Empresa",
+       x = "Educacion",
+       y = "Número de Empleados",
+       fill = "Dejar la Empresa") +  # Personaliza las etiquetas y título
+  scale_fill_manual(values = c("#FF6666", "#6666FF"), labels = c("No", "Sí")) +  # Colores y leyendas personalizados
+  theme_minimal() +  # Aplica un tema minimalista
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))  # Ajusta el texto del eje X para mejorar la visualización
+
+
+## Los gráficos de barras muestran las siguientes tendencias en relación a la decisión de dejar la empresa:
+
+## Ciudad:
+  ## En Bangalore y Pune, una mayor proporción de empleados parece permanecer en la empresa en comparación con New Delhi.
+## Género:
+  ## La proporción entre hombres y mujeres que dejan la empresa parece ser bastante similar.
+## Educación:
+  ## Los empleados con título de "Masters" y "PHD" parecen tener una menor proporción de salida en comparación con los de "Bachelors".
+
+## Para determinar si estas diferencias son estadísticamente significativas, procederemos a realizar pruebas de Chi-cuadrado. 
+## Estas pruebas nos permitirán evaluar si las diferencias observadas en cada grupo son suficientes para sugerir una dependencia entre 
+## las variables categóricas y la decisión de dejar la empresa. 
+
+# PRUEBA DE CHI-CUADRADO PARA CIUDAD
+city_table <- table(df$City, df$LeaveOrNot)
+city_table
+CH2_CITY <- chisq.test(city_table)
+
+# PRUEBA DE CHI-CUADRADO PARA GENERO
+city_table <- table(df$Gender, df$LeaveOrNot)
+city_table
+CH2_GENDER <- chisq.test(city_table)
+
+# PRUEBA DE CHI-CUADRADO PARA EDUCACION
+city_table <- table(df$Education, df$LeaveOrNot)
+city_table
+CH2_EDUCATION <- chisq.test(city_table)
+
+# SHOW IN DATA FRAME THE RESULTS OF CHI-SQUARE TEST 
+results <- data.frame(
+  Variable = c("City", "Gender", "Education"),
+  Chi_Square = c(CH2_CITY$statistic, CH2_GENDER$statistic, CH2_EDUCATION$statistic),
+  P_Value = c(CH2_CITY$p.value, CH2_GENDER$p.value, CH2_EDUCATION$p.value)
+)
+print(results)
+
+## RESULTADOS
+## 1 Ciudad
+## Chi-cuadrado: 206.16 VS P-Valor: 1.710699e-45
+## 2 Género
+## Chi-cuadrado: 225.6954 VS P-Valor: 5.177874e-51
+## 3 Educación
+## Chi-cuadrado: 101.8301 VS P-Valor: 7.724418e-23
+## Dado que los valores de p son extremadamente bajos para las tres pruebas, podemos concluir que hay una asociaciónÇ
+## significativa entre cada una de estas variables categóricas y la decisión de dejar la empresa. Esto indica que tanto la ciudad, 
+## el género como el nivel educativo tienen un impacto en la probabilidad de que un empleado deje la empresa.
+```
+
