@@ -11,10 +11,273 @@ knitr::opts_chunk$set(echo = TRUE)
 ## R Markdown
 
 Nos conectamos al dataset:
+Columns:
+
+Education: The educational qualifications of employees, including degree, institution, and field of study.
+
+Joining Year: The year each employee joined the company, indicating their length of service.
+
+City: The location or city where each employee is based or works.
+
+Payment Tier: Categorization of employees into different salary tiers.
+
+Age: The age of each employee, providing demographic insights.
+
+Gender: Gender identity of employees, promoting diversity analysis.
+
+Ever Benched: Indicates if an employee has ever been temporarily without assigned work.
+
+Experience in Current Domain: The number of years of experience employees have in their current field.
+
+Leave or Not: a target column
 
 ```{r}
 url <- "https://raw.githubusercontent.com/chelocoder/ProyectoR/main/Employee.csv"
 datos <- read.csv(url)
 head(datos)
+```
+```{r count-missing-data, results='markup'}
+# Conteo de datos faltantes en cada columna
+missing_data_counts <- sapply(datos, function(x) sum(is.na(x)))
+
+# Mostrando el conteo de datos faltantes
+missing_data_counts
+
+```
+
+
+```{r}
+summary(datos)
+```
+
+
+```{r}
+# Identificando variables numéricas
+numeric_vars <- sapply(datos, function(x) is.numeric(x) || is.integer(x))
+numeric_variables <- names(datos)[numeric_vars]
+
+# Identificando variables categóricas
+categorical_vars <- sapply(datos, function(x) is.factor(x) || is.character(x) || is.logical(x))
+categorical_variables <- names(datos)[categorical_vars]
+
+# Mostrando las variables numéricas y categóricas
+list(numeric = numeric_variables, categorical = categorical_variables)
+```
+```{r barplot-joining-year-ggplot, fig.cap="Gráfico de Barras de JoiningYear con ggplot2"}
+# Cargar la librería ggplot2
+library(ggplot2)
+
+# Crear un data frame con los conteos de cada año
+joining_year_data <- as.data.frame(table(datos$JoiningYear))
+
+# Crear el gráfico de barras usando ggplot2
+ggplot(joining_year_data, aes(x = Var1, y = Freq)) +
+  geom_bar(stat = "identity", fill = "skyblue") +
+  ggtitle("Gráfico de Barras de JoiningYear") +
+  xlab("Año de Ingreso") +
+  ylab("Frecuencia")
+```
+```{r barplot-paymenttier-ggplot, fig.cap="Gráfico de Barras de PaymentTier con ggplot2"}
+# Cargar la librería ggplot2
+library(ggplot2)
+
+# Crear un data frame con los conteos de cada categoría de PaymentTier
+payment_tier_data <- as.data.frame(table(datos$PaymentTier))
+
+# Crear el gráfico de barras usando ggplot2
+ggplot(payment_tier_data, aes(x = Var1, y = Freq)) +
+  geom_bar(stat = "identity", fill = "coral") +
+  ggtitle("Gráfico de Barras de PaymentTier") +
+  xlab("Tier de Pago") +
+  ylab("Frecuencia")
+
+```
+
+
+```{r histogram-age-ggplot, fig.cap="Histograma de Age con ggplot2"}
+# Cargar la librería ggplot2
+library(ggplot2)
+
+# Crear un histograma usando ggplot2
+ggplot(datos, aes(x = Age)) +
+  geom_histogram(binwidth = 1, fill="blue", color="black") +
+  ggtitle("Histograma de Age") +
+  xlab("Edad") +
+  ylab("Frecuencia")
+
+```
+```{r boxplot-age-ggplot, fig.cap="Box Plot de Age con ggplot2"}
+# Cargar la librería ggplot2
+library(ggplot2)
+
+# Creando un box plot usando ggplot2
+ggplot(datos, aes(y = Age)) +
+  geom_boxplot(fill = "lightgreen") +
+  ggtitle("Box Plot de Age") +
+  ylab("Edad")
+
+```
+
+
+```{r barplot-experience-ggplot, fig.cap="Gráfico de Barras de ExperienceInCurrentDomain con ggplot2"}
+# Cargar la librería ggplot2
+library(ggplot2)
+
+# Crear un data frame con los conteos de cada valor de ExperienceInCurrentDomain
+experience_data <- as.data.frame(table(datos$ExperienceInCurrentDomain))
+
+# Crear el gráfico de barras usando ggplot2
+ggplot(experience_data, aes(x = Var1, y = Freq)) +
+  geom_bar(stat = "identity", fill = "lightblue") +
+  ggtitle("Gráfico de Barras de ExperienceInCurrentDomain") +
+  xlab("Años de Experiencia en el Dominio Actual") +
+  ylab("Frecuencia")
+
+```
+```{r barplot-leaveornot-ggplot, fig.cap="Gráfico de Barras de LeaveOrNot con ggplot2"}
+# Cargar la librería ggplot2
+library(ggplot2)
+
+# Crear un data frame con los conteos de cada categoría de LeaveOrNot
+leave_data <- as.data.frame(table(datos$LeaveOrNot))
+
+# Crear el gráfico de barras usando ggplot2
+ggplot(leave_data, aes(x = Var1, y = Freq)) +
+  geom_bar(stat = "identity", fill = "salmon") +
+  ggtitle("Gráfico de Barras de LeaveOrNot") +
+  xlab("Decisión") +
+  ylab("Frecuencia")
+
+```
+
+
+```{r}
+# Identifying character variables
+char_vars <- sapply(datos, class) == "character"
+
+# Extracting unique values for each character variable
+unique_values <- lapply(datos[, char_vars, drop = FALSE], unique)
+
+# Displaying the unique values
+unique_values
+
+```
+```{r barplot-education-ggplot, fig.cap="Gráfico de Barras de Education con ggplot2"}
+# Cargar la librería ggplot2
+library(ggplot2)
+
+# Crear un data frame con los conteos de cada categoría de Education
+education_data <- as.data.frame(table(datos$Education))
+
+# Crear el gráfico de barras usando ggplot2
+ggplot(education_data, aes(x = Var1, y = Freq)) +
+  geom_bar(stat = "identity", fill = "turquoise") +
+  ggtitle("Gráfico de Barras de Education") +
+  xlab("Nivel de Educación") +
+  ylab("Frecuencia")
+
+```
+```{r barplot-city-ggplot, fig.cap="Gráfico de Barras de City con ggplot2"}
+# Cargar la librería ggplot2
+library(ggplot2)
+
+# Crear un data frame con los conteos de cada ciudad
+city_data <- as.data.frame(table(datos$City))
+
+# Crear el gráfico de barras usando ggplot2
+ggplot(city_data, aes(x = reorder(Var1, -Freq), y = Freq)) +
+  geom_bar(stat = "identity", fill = "cadetblue") +
+  ggtitle("Gráfico de Barras de City") +
+  xlab("Ciudad") +
+  ylab("Frecuencia") +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) # Rotating x-axis labels for better visibility
+
+```
+
+```{r barplot-gender-ggplot, fig.cap="Gráfico de Barras de Gender con ggplot2"}
+# Cargar la librería ggplot2
+library(ggplot2)
+
+# Crear un data frame con los conteos de cada género
+gender_data <- as.data.frame(table(datos$Gender))
+
+# Crear el gráfico de barras usando ggplot2
+ggplot(gender_data, aes(x = Var1, y = Freq)) +
+  geom_bar(stat = "identity", fill = "orchid") +
+  ggtitle("Gráfico de Barras de Gender") +
+  xlab("Género") +
+  ylab("Frecuencia")
+
+```
+```{r barplot-everbenched-ggplot, fig.cap="Gráfico de Barras de EverBenched con ggplot2"}
+# Cargar la librería ggplot2
+library(ggplot2)
+
+# Crear un data frame con los conteos de cada categoría de EverBenched
+everbenched_data <- as.data.frame(table(datos$EverBenched))
+
+# Crear el gráfico de barras usando ggplot2
+ggplot(everbenched_data, aes(x = Var1, y = Freq)) +
+  geom_bar(stat = "identity", fill = "lightcoral") +
+  ggtitle("Gráfico de Barras de EverBenched") +
+  xlab("Ha Sido Bencheado") +
+  ylab("Frecuencia")
+
+```
+```{r setup, include=FALSE}
+# Install GGally if it's not already installed
+if (!require("GGally")) install.packages("GGally", dependencies = TRUE)
+
+# Load the necessary libraries
+library(ggplot2)
+library(GGally)
+
+
+```
+
+```{r convert-factors}
+# Converting 'LeaveOrNot' to a factor if it's not already
+datos$LeaveOrNot <- as.factor(datos$LeaveOrNot)
+# Optionally, convert other categorical variables
+datos$PaymentTier <- as.factor(datos$PaymentTier)
+
+# Now, subset the dataset with the required variables
+selected_variables <- datos[, c("Age", "JoiningYear", "ExperienceInCurrentDomain", "PaymentTier", "LeaveOrNot")]
+```
+```{r setup-libraries, include=FALSE}
+# Install corrplot if it's not already installed
+if (!require("corrplot")) install.packages("corrplot", dependencies = TRUE)
+
+# Load the library
+library(corrplot)
+
+```
+
+```{r pairplot-leaveornot-fixed, fig.cap="Pairplot with LeaveOrNot as Hue"}
+# Creating the pairplot using GGally
+ggpairs(selected_variables, aes(color = LeaveOrNot), 
+        lower = list(continuous = wrap("points", alpha = 0.5, size = 1)),
+        diag = list(continuous = wrap("barDiag")),
+        upper = list(continuous = wrap("cor", size = 3)),
+        title = "Pairplot with LeaveOrNot as Hue")
+
+```
+
+
+```{r compute-correlation, results='markup'}
+# Subsetting the dataset to include only numerical variables
+numerical_data <- datos[sapply(datos, is.numeric)]
+
+# Calculating the correlation matrix
+cor_matrix <- cor(numerical_data, use="pairwise.complete.obs")  # Handling missing values by considering complete cases
+
+# Display the correlation matrix
+cor_matrix
+
+```
+```{r visualize-correlation, fig.cap="Correlation Matrix Visualization"}
+# Visualizing the correlation matrix
+corrplot(cor_matrix, method="circle", type="upper", order="hclust",
+         tl.col="black", tl.srt=45)  # Rotate labels for better readability
 ```
 
