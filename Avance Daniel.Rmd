@@ -1,0 +1,153 @@
+---
+title: "Fallecidos SINADEF"
+author: "Daniel Muriano"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+if (!require("dplyr", quietly = TRUE)) {
+    install.packages("dplyr")
+}
+if (!require("ggplot2", quietly = TRUE)) {
+    install.packages("ggplot2")
+}
+if (!require("tidyr", quietly = TRUE)) {
+    install.packages("tidyr")
+}
+options(scipen = 999)
+
+```
+
+## Cargar la data
+
+Data extraido de https://www.datosabiertos.gob.pe/dataset/informaci%C3%B3n-de-fallecidos-del-sistema-inform%C3%A1tico-nacional-de-defunciones-sinadef-ministerio 
+
+```{r data read}
+data <- read.csv("fallecidos_sinadef.csv", sep = "|", stringsAsFactors = FALSE)
+```
+
+## Including Plots
+
+You can also embed plots, for example:
+
+```{r review data}
+head(data)
+```
+```{r review data}
+# Cargar la librería dplyr
+library(dplyr)
+
+# Reemplazar "SIN REGISTRO" por NA en todas las columnas
+data <- data %>%
+  mutate(across(everything(), ~ifelse(. == "SIN REGISTRO", NA, .)))
+
+```
+
+```{r review data}
+summary(data)
+```
+
+```{r}
+unique(data$EDAD)
+data$EDAD <- as.numeric(data$EDAD)
+
+```
+
+
+
+
+```{r}
+# Load packages
+library(dplyr)
+library(ggplot2)
+
+# Example of using dplyr to summarize data
+data %>%
+  group_by(SEXO) %>%
+  summarize(Mean = mean(EDAD, na.rm = TRUE))
+
+# Example of using ggplot2 to plot data
+ggplot(data, aes(x = SEXO, y = EDAD)) +
+  geom_point()  # Creates a scatter plot
+```
+
+```{r}
+ggplot(data, aes(x = SEXO, y = EDAD, fill = SEXO)) + 
+  geom_boxplot() +
+  labs(title = "Box Plot of EDAD by SEXO", x = "SEXO", y = "EDAD") +
+  scale_fill_brewer(palette = "Pastel1") +  # Adds color
+  theme_minimal()  # Changes the plot theme to a minimal style
+
+```
+
+```{r}
+unique(data$TIEMPO.EDAD)
+```
+```{r}
+# Contar NA en cada columna usando sapply()
+na_count <- sapply(data, function(x) sum(is.na(x)))
+
+# Convertir los resultados en un dataframe de forma vertical
+na_count_vertical <- stack(as.data.frame(t(na_count)))
+
+# Renombrar columnas para claridad
+names(na_count_vertical) <- c("NA_Count", "Variable")
+
+# Imprimir los resultados
+print(na_count_vertical)
+
+```
+
+```{r}
+# Cargar la librería dplyr si aún no está cargada
+library(dplyr)
+
+# Filtrar filas donde 'EDAD' y 'TIEMPO.EDAD' no son NA
+data_clean <- data %>%
+  filter(!is.na(EDAD) & !is.na(TIEMPO.EDAD))
+
+```
+
+
+```{r}
+# Contar NA en cada columna usando sapply()
+na_count <- sapply(data_clean, function(x) sum(is.na(x)))
+
+# Convertir los resultados en un dataframe de forma vertical
+na_count_vertical <- stack(as.data.frame(t(na_count)))
+
+# Renombrar columnas para claridad
+names(na_count_vertical) <- c("NA_Count", "Variable")
+
+# Imprimir los resultados
+print(na_count_vertical)
+
+```
+
+
+```{r}
+data_clean <- data_clean %>%
+  mutate(EDAD.AÑOS = case_when(
+    TIEMPO.EDAD == "AÑOS"     ~ EDAD,
+    TIEMPO.EDAD == "MESES"    ~ EDAD / 12,
+    TIEMPO.EDAD == "DIAS"     ~ EDAD / 365,
+    TIEMPO.EDAD == "HORAS"    ~ EDAD / 8760,
+    TIEMPO.EDAD == "MINUTOS"  ~ EDAD / 525600,
+    TIEMPO.EDAD == "SEGUNDOS" ~ EDAD / 31536000,
+    TRUE                      ~ NA_real_  # Maneja cualquier otro caso no especificado
+  ))
+head(data_clean)
+
+```
+
+```{r}
+# Create histogram of EDAD.AÑOS
+ggplot(data_clean, aes(x = EDAD.AÑOS)) +
+  geom_histogram(binwidth = 1, color = "black", fill = "blue") +
+  labs(title = "Histogram of EDAD.AÑOS", x = "EDAD.AÑOS", y = "Frequency") +
+  theme_minimal()
+
+```
+
