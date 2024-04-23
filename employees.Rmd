@@ -593,6 +593,8 @@ print(estadisticos_dispersion)
 
 ## 2. Análisis Exploratorio de Datos (EDA)
 
+
+
 ```{r count-missing-data, results='markup'}
 # Conteo de datos faltantes en cada columna
 missing_data_counts <- sapply(datos, function(x) sum(is.na(x)))
@@ -602,11 +604,7 @@ missing_data_counts
 
 ```
 
-
-```{r}
-summary(datos)
-```
-
+Como contamos con pocas variables, se puede destacar a primera vista que tenemos 8 variables independientes y 1 dependiente. De las variables independientes, 4 son categóricas y 4 son numéricas. La variable dependiente es numérica.
 
 ```{r}
 # Identificando variables numéricas
@@ -620,36 +618,39 @@ categorical_variables <- names(datos)[categorical_vars]
 # Mostrando las variables numéricas y categóricas
 list(numeric = numeric_variables, categorical = categorical_variables)
 ```
+Decidimos realizar un gráfico de barras de JoiningYear, debido a que su rango de valores era corto. Podemos observar que el año que tuvo más personas ingresando a trabajar fue el 2017 (23.8%) y el año con menos ingresos fue el 2018 (7.9%).
+
+
 ```{r barplot-joining-year-ggplot, fig.cap="Gráfico de Barras de JoiningYear con ggplot2"}
-# Cargar la librería ggplot2
-library(ggplot2)
+# Calcular los porcentajes de frecuencia de cada año
+joining_year_data$Percentage <- joining_year_data$Freq / sum(joining_year_data$Freq) * 100
 
-# Crear un data frame con los conteos de cada año
-joining_year_data <- as.data.frame(table(datos$JoiningYear))
-
-# Crear el gráfico de barras usando ggplot2
-ggplot(joining_year_data, aes(x = Var1, y = Freq)) +
+# Crear el gráfico de barras con porcentajes usando ggplot2
+ggplot(joining_year_data, aes(x = Var1, y = Freq, label = paste0(round(Percentage, 1), "%"))) +
   geom_bar(stat = "identity", fill = "skyblue") +
+  geom_text(size = 3, position = position_stack(vjust = 0.5), color = "black") +
   ggtitle("Gráfico de Barras de JoiningYear") +
   xlab("Año de Ingreso") +
   ylab("Frecuencia")
+
 ```
+Decidimos realizar un gráfico de barras de PaymentTier, debido a que su rango de valores era corto. Podemos observar que el Tier 3, que precisamente corresponde al salario más bajo, es el más frecuente (75%), mientras que el Tier 1, donde se gana más, es el menos frecuente (5.2%).
+
 ```{r barplot-paymenttier-ggplot, fig.cap="Gráfico de Barras de PaymentTier con ggplot2"}
-# Cargar la librería ggplot2
-library(ggplot2)
+# Calcular los porcentajes de frecuencia de cada categoría de PaymentTier
+payment_tier_data$Percentage <- payment_tier_data$Freq / sum(payment_tier_data$Freq) * 100
 
-# Crear un data frame con los conteos de cada categoría de PaymentTier
-payment_tier_data <- as.data.frame(table(datos$PaymentTier))
-
-# Crear el gráfico de barras usando ggplot2
-ggplot(payment_tier_data, aes(x = Var1, y = Freq)) +
+# Crear el gráfico de barras con porcentajes usando ggplot2
+ggplot(payment_tier_data, aes(x = Var1, y = Freq, label = paste0(round(Percentage, 1), "%"))) +
   geom_bar(stat = "identity", fill = "coral") +
+  geom_text(size = 3, position = position_stack(vjust = 0.5), color = "black") +
   ggtitle("Gráfico de Barras de PaymentTier") +
   xlab("Tier de Pago") +
   ylab("Frecuencia")
 
-```
 
+```
+Decidimos realizar un histograma de Age, debido a que su rango de valores era más amplio. Podemos observar que hay mayor cantidad de personas que tienen entre 25 y 27 años, y la menor cantidad de personas son las que tienen entre 21 y 23 años. Ademas la data esta sesgada a la derecha.
 
 ```{r histogram-age-ggplot, fig.cap="Histograma de Age con ggplot2"}
 # Cargar la librería ggplot2
@@ -657,12 +658,14 @@ library(ggplot2)
 
 # Crear un histograma usando ggplot2
 ggplot(datos, aes(x = Age)) +
-  geom_histogram(binwidth = 1, fill="blue", color="black") +
+  geom_histogram(binwidth = 2, fill="blue", color="black") +
   ggtitle("Histograma de Age") +
   xlab("Edad") +
   ylab("Frecuencia")
 
 ```
+Adicionalmente, al analizar Age con un boxplot, podemos ver que no hay presencia de outliers.
+
 ```{r boxplot-age-ggplot, fig.cap="Box Plot de Age con ggplot2"}
 # Cargar la librería ggplot2
 library(ggplot2)
@@ -674,36 +677,36 @@ ggplot(datos, aes(y = Age)) +
   ylab("Edad")
 
 ```
-
+Decidimos realizar un gráfico de barras de ExperienceInCurrentDomain, debido a que su rango de valores era corto. Podemos observar que la frecuencia más alta es cuando las personas tienen 2 años de experiencia (23.4%), mientras que la más baja es cuando tienen 6 o 7 años de experiencia (0.2% cada uno).
 
 ```{r barplot-experience-ggplot, fig.cap="Gráfico de Barras de ExperienceInCurrentDomain con ggplot2"}
-# Cargar la librería ggplot2
-library(ggplot2)
+# Calcular los porcentajes de frecuencia de cada valor de ExperienceInCurrentDomain
+experience_data$Percentage <- experience_data$Freq / sum(experience_data$Freq) * 100
 
-# Crear un data frame con los conteos de cada valor de ExperienceInCurrentDomain
-experience_data <- as.data.frame(table(datos$ExperienceInCurrentDomain))
-
-# Crear el gráfico de barras usando ggplot2
-ggplot(experience_data, aes(x = Var1, y = Freq)) +
+# Crear el gráfico de barras con porcentajes usando ggplot2
+ggplot(experience_data, aes(x = Var1, y = Freq, label = paste0(round(Percentage, 1), "%"))) +
   geom_bar(stat = "identity", fill = "lightblue") +
+  geom_text(size = 3, position = position_stack(vjust = 0.5), color = "black") +
   ggtitle("Gráfico de Barras de ExperienceInCurrentDomain") +
   xlab("Años de Experiencia en el Dominio Actual") +
   ylab("Frecuencia")
 
+
 ```
+Ahora, analizando nuestra variable dependiente, decidimos realizar un gráfico de barras de LeaveOrNot, debido a que su rango de valores era corto. Podemos observar que la frecuencia más alta es que las personas se queden (65.6%); sin embargo, las personas que se van también representan una parte considerable (34.4%).
+
 ```{r barplot-leaveornot-ggplot, fig.cap="Gráfico de Barras de LeaveOrNot con ggplot2"}
-# Cargar la librería ggplot2
-library(ggplot2)
+# Calcular los porcentajes de frecuencia de cada categoría de LeaveOrNot
+leave_data$Percentage <- leave_data$Freq / sum(leave_data$Freq) * 100
 
-# Crear un data frame con los conteos de cada categoría de LeaveOrNot
-leave_data <- as.data.frame(table(datos$LeaveOrNot))
-
-# Crear el gráfico de barras usando ggplot2
-ggplot(leave_data, aes(x = Var1, y = Freq)) +
+# Crear el gráfico de barras con porcentajes usando ggplot2
+ggplot(leave_data, aes(x = Var1, y = Freq, label = paste0(round(Percentage, 1), "%"))) +
   geom_bar(stat = "identity", fill = "salmon") +
+  geom_text(size = 3, position = position_stack(vjust = 0.5), color = "black") +
   ggtitle("Gráfico de Barras de LeaveOrNot") +
   xlab("Decisión") +
   ylab("Frecuencia")
+
 
 ```
 
@@ -719,63 +722,64 @@ unique_values <- lapply(datos[, char_vars, drop = FALSE], unique)
 unique_values
 
 ```
+Decidimos realizar un gráfico de barras de Education, debido a que era categórico con pocos valores únicos. Podemos observar que la mayor cantidad de personas tienen un título de Bachelor(77.4%), mientras que una pequeña cantidad de personas tienen un título de PhD (3.8%).
+
 ```{r barplot-education-ggplot, fig.cap="Gráfico de Barras de Education con ggplot2"}
-# Cargar la librería ggplot2
-library(ggplot2)
+# Calcular los porcentajes de frecuencia de cada categoría de Education
+education_data$Percentage <- education_data$Freq / sum(education_data$Freq) * 100
 
-# Crear un data frame con los conteos de cada categoría de Education
-education_data <- as.data.frame(table(datos$Education))
-
-# Crear el gráfico de barras usando ggplot2
-ggplot(education_data, aes(x = Var1, y = Freq)) +
+# Crear el gráfico de barras con porcentajes usando ggplot2
+ggplot(education_data, aes(x = Var1, y = Freq, label = paste0(round(Percentage, 1), "%"))) +
   geom_bar(stat = "identity", fill = "turquoise") +
+  geom_text(size = 3, position = position_stack(vjust = 0.5), color = "black") +
   ggtitle("Gráfico de Barras de Education") +
   xlab("Nivel de Educación") +
   ylab("Frecuencia")
 
+
 ```
+Decidimos realizar un gráfico de barras de City, debido a que era categórico con pocos valores únicos. Podemos observar que la mayor cantidad de personas son de Bangalore (47.9%), mientras que las personas que vienen de Pune y New Delhi tienen proporciones muy similares (27.3% y 24.9% respectivamente).
+
 ```{r barplot-city-ggplot, fig.cap="Gráfico de Barras de City con ggplot2"}
-# Cargar la librería ggplot2
-library(ggplot2)
+# Calcular los porcentajes de frecuencia de cada ciudad
+city_data$Percentage <- city_data$Freq / sum(city_data$Freq) * 100
 
-# Crear un data frame con los conteos de cada ciudad
-city_data <- as.data.frame(table(datos$City))
-
-# Crear el gráfico de barras usando ggplot2
-ggplot(city_data, aes(x = reorder(Var1, -Freq), y = Freq)) +
+# Crear el gráfico de barras con porcentajes usando ggplot2
+ggplot(city_data, aes(x = reorder(Var1, -Freq), y = Freq, label = paste0(round(Percentage, 1), "%"))) +
   geom_bar(stat = "identity", fill = "cadetblue") +
+  geom_text(size = 3, position = position_stack(vjust = 0.5), color = "black") +
   ggtitle("Gráfico de Barras de City") +
   xlab("Ciudad") +
   ylab("Frecuencia") +
   theme(axis.text.x = element_text(angle = 45, hjust = 1)) # Rotating x-axis labels for better visibility
 
 ```
+Decidimos realizar un gráfico de barras de Gender, debido a que era categórico con pocos valores únicos. Podemos observar que la mayor cantidad de personas son del género masculino (59.7%), mientras que la menor proporción son del género femenino (40.3%).
 
 ```{r barplot-gender-ggplot, fig.cap="Gráfico de Barras de Gender con ggplot2"}
-# Cargar la librería ggplot2
-library(ggplot2)
+# Calcular los porcentajes de frecuencia de cada género
+gender_data$Percentage <- gender_data$Freq / sum(gender_data$Freq) * 100
 
-# Crear un data frame con los conteos de cada género
-gender_data <- as.data.frame(table(datos$Gender))
-
-# Crear el gráfico de barras usando ggplot2
-ggplot(gender_data, aes(x = Var1, y = Freq)) +
+# Crear el gráfico de barras con porcentajes usando ggplot2
+ggplot(gender_data, aes(x = Var1, y = Freq, label = paste0(round(Percentage, 1), "%"))) +
   geom_bar(stat = "identity", fill = "orchid") +
+  geom_text(size = 3, position = position_stack(vjust = 0.5), color = "black") +
   ggtitle("Gráfico de Barras de Gender") +
   xlab("Género") +
   ylab("Frecuencia")
 
+
 ```
+Decidimos realizar un gráfico de barras de EverBenched, debido a que era categórico con pocos valores únicos. Podemos observar que casi todas las personas han sido benchadas (89.7%), mientras que solo una minoría no lo fue (10.3%).
+
 ```{r barplot-everbenched-ggplot, fig.cap="Gráfico de Barras de EverBenched con ggplot2"}
-# Cargar la librería ggplot2
-library(ggplot2)
+# Calcular los porcentajes de frecuencia de cada categoría de EverBenched
+everbenched_data$Percentage <- everbenched_data$Freq / sum(everbenched_data$Freq) * 100
 
-# Crear un data frame con los conteos de cada categoría de EverBenched
-everbenched_data <- as.data.frame(table(datos$EverBenched))
-
-# Crear el gráfico de barras usando ggplot2
-ggplot(everbenched_data, aes(x = Var1, y = Freq)) +
+# Crear el gráfico de barras con porcentajes usando ggplot2
+ggplot(everbenched_data, aes(x = Var1, y = Freq, label = paste0(round(Percentage, 1), "%"))) +
   geom_bar(stat = "identity", fill = "lightcoral") +
+  geom_text(size = 3, position = position_stack(vjust = 0.5), color = "black") +
   ggtitle("Gráfico de Barras de EverBenched") +
   xlab("Ha Sido Bencheado") +
   ylab("Frecuencia")
