@@ -1122,7 +1122,11 @@ ggplot(data = df, aes(x = Education, fill = factor(LeaveOrNot))) +  # Define las
 -   Del grafico, se puede observar que la mayoria de los empleados que deciden dejar la empresa tienen un nivel de educacion de "Bachelors".
 -   Por otro lado, la cantidad de empleados que deciden quedarse en la empresa es similar para todos los niveles de educacion Master y PHD.
 
-**PRUEBA DE HIPOTESIS**
+## 3. Prueba de Hipótesis
+
+**Problema:**
+
+**¿Se puede determinar la renuncia de los empleados en función de las variables independientes del dataset?**
 
 -Para determinar si estas diferencias son estadísticamente significativas, procederemos a realizar pruebas de Chi-cuadrado. Estas pruebas nos permitirán evaluar si las diferencias observadas en cada grupo son suficientes para sugerir una dependencia entre las variables categóricas y la decisión de dejar la empresa.
 
