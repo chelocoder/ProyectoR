@@ -6,6 +6,11 @@ output:
 date: "2024-04-19"
 ---
 
+```{r}
+rm(list = ls())
+```
+
+
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
@@ -623,6 +628,8 @@ Decidimos realizar un gráfico de barras de JoiningYear, debido a que su rango d
 
 ```{r barplot-joining-year-ggplot, fig.cap="Gráfico de Barras de JoiningYear con ggplot2"}
 # Calcular los porcentajes de frecuencia de cada año
+library(ggplot2)
+joining_year_data <- as.data.frame(table(datos$JoiningYear))
 joining_year_data$Percentage <- joining_year_data$Freq / sum(joining_year_data$Freq) * 100
 
 # Crear el gráfico de barras con porcentajes usando ggplot2
@@ -638,6 +645,8 @@ Decidimos realizar un gráfico de barras de PaymentTier, debido a que su rango d
 
 ```{r barplot-paymenttier-ggplot, fig.cap="Gráfico de Barras de PaymentTier con ggplot2"}
 # Calcular los porcentajes de frecuencia de cada categoría de PaymentTier
+library(ggplot2)
+payment_tier_data <- as.data.frame(table(datos$PaymentTier))
 payment_tier_data$Percentage <- payment_tier_data$Freq / sum(payment_tier_data$Freq) * 100
 
 # Crear el gráfico de barras con porcentajes usando ggplot2
@@ -681,6 +690,8 @@ Decidimos realizar un gráfico de barras de ExperienceInCurrentDomain, debido a 
 
 ```{r barplot-experience-ggplot, fig.cap="Gráfico de Barras de ExperienceInCurrentDomain con ggplot2"}
 # Calcular los porcentajes de frecuencia de cada valor de ExperienceInCurrentDomain
+library(ggplot2)
+experience_data <- as.data.frame(table(datos$ExperienceInCurrentDomain))
 experience_data$Percentage <- experience_data$Freq / sum(experience_data$Freq) * 100
 
 # Crear el gráfico de barras con porcentajes usando ggplot2
@@ -697,6 +708,8 @@ Ahora, analizando nuestra variable dependiente, decidimos realizar un gráfico d
 
 ```{r barplot-leaveornot-ggplot, fig.cap="Gráfico de Barras de LeaveOrNot con ggplot2"}
 # Calcular los porcentajes de frecuencia de cada categoría de LeaveOrNot
+library(ggplot2)
+leave_data <- as.data.frame(table(datos$LeaveOrNot))
 leave_data$Percentage <- leave_data$Freq / sum(leave_data$Freq) * 100
 
 # Crear el gráfico de barras con porcentajes usando ggplot2
@@ -726,6 +739,8 @@ Decidimos realizar un gráfico de barras de Education, debido a que era categór
 
 ```{r barplot-education-ggplot, fig.cap="Gráfico de Barras de Education con ggplot2"}
 # Calcular los porcentajes de frecuencia de cada categoría de Education
+library(ggplot2)
+education_data <- as.data.frame(table(datos$Education))
 education_data$Percentage <- education_data$Freq / sum(education_data$Freq) * 100
 
 # Crear el gráfico de barras con porcentajes usando ggplot2
@@ -742,6 +757,8 @@ Decidimos realizar un gráfico de barras de City, debido a que era categórico c
 
 ```{r barplot-city-ggplot, fig.cap="Gráfico de Barras de City con ggplot2"}
 # Calcular los porcentajes de frecuencia de cada ciudad
+library(ggplot2)
+city_data <- as.data.frame(table(datos$City))
 city_data$Percentage <- city_data$Freq / sum(city_data$Freq) * 100
 
 # Crear el gráfico de barras con porcentajes usando ggplot2
@@ -758,6 +775,8 @@ Decidimos realizar un gráfico de barras de Gender, debido a que era categórico
 
 ```{r barplot-gender-ggplot, fig.cap="Gráfico de Barras de Gender con ggplot2"}
 # Calcular los porcentajes de frecuencia de cada género
+library(ggplot2)
+gender_data <- as.data.frame(table(datos$Gender))
 gender_data$Percentage <- gender_data$Freq / sum(gender_data$Freq) * 100
 
 # Crear el gráfico de barras con porcentajes usando ggplot2
@@ -774,6 +793,8 @@ Decidimos realizar un gráfico de barras de EverBenched, debido a que era categ�
 
 ```{r barplot-everbenched-ggplot, fig.cap="Gráfico de Barras de EverBenched con ggplot2"}
 # Calcular los porcentajes de frecuencia de cada categoría de EverBenched
+library(ggplot2)
+everbenched_data <- as.data.frame(table(datos$EverBenched))
 everbenched_data$Percentage <- everbenched_data$Freq / sum(everbenched_data$Freq) * 100
 
 # Crear el gráfico de barras con porcentajes usando ggplot2
