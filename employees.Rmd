@@ -1104,7 +1104,7 @@ ggplot(data = df, aes(x = Gender, fill = factor(LeaveOrNot))) +  # Define las va
   theme_minimal()
 ```
 
--   Delñ grafico, se puede observar que la mayoria de los empleados que deciden dejar la empresa son de genero masculino.
+-   Del grafico, se puede observar que la mayoria de los empleados que deciden dejar la empresa son de genero masculino.
 -   Por otro lado, la cantidad de empleados que deciden quedarse en la empresa es similar para ambos generos.
 
 **GRAFICO DE RELACION ENTRE VARIABLES "Education" VS "LeaveOrNot"**
