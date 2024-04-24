@@ -6,11 +6,6 @@ output:
 date: "2024-04-19"
 ---
 
-```{r}
-rm(list = ls())
-```
-
-
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
@@ -19,7 +14,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 Nos conectamos al dataset:
 
-Columns:
+**Diccionario de Datos**
 
 Education: The educational qualifications of employees, including degree, institution, and field of study.
 
@@ -39,15 +34,28 @@ Experience in Current Domain: The number of years of experience employees have i
 
 Leave or Not: a target column
 
+**Conexión al dataset Employee.csv**
+
+El dataset "Employee.csv" se encuentra en nuestro repositorio de Github al cual nos conectamos utiliando el método read.csv.
+
 ```{r}
 url <- "https://raw.githubusercontent.com/chelocoder/ProyectoR/main/Employee.csv"
 datos <- read.csv(url)
 head(datos)
 ```
+El comando head nos permite visualizar los primeros seis registros como una vista previa que confirma la conexión y nos permite una primera vista preliminar de los datos.
+
+Empezamos con la estadística descriptiva, esta es una rama importante de la estadística que nos permite describir las características de los datos, de ahí su nombre, pertenece a la etapa del análisis descriptivo donde empezamos a conocer los datos.
+
+Sus partes más importantes son:
+
+1. Estadísticos de tendencia central.
+
+2. Estadísticos de dispersión.
 
 ## 1. Estadísticos Descriptivos
 
-Obtenemos los estadísticos descriptivos de todas las variables del dataset
+Obtenemos los estadísticos descriptivos de todas las variables del dataset de forma resumida:
 
 ```{r}
 # Obtener estadísticos descriptivos
@@ -57,7 +65,12 @@ summary_stats <- summary(datos)
 print(summary_stats)
 ```
 
+Ahora vamos a describir cada una de las características:
+
 ## 1.1. Tendecia Central
+
+Para un mejor análisis dividimos a las variables del dataset en: Variables numéricas y categóricas.
+
 **1.1.1 Variables Numéricas**
 
 Obtenemos los Estadísticos descriptivos de solamente las variables numéricas
@@ -76,7 +89,7 @@ summary_stats <- summary(numeric_data)
 # Mostrar los estadísticos descriptivos
 print(summary_stats)
 ```
-Obtenemos los estadísticos descriptivos de cada variable:
+Obtenemos los estadísticos descriptivos de cada variable para describir mejor las características de las variables numéricas:
 
 **a.Variable JoiningYear**
 
@@ -88,6 +101,7 @@ min <- min(datos$JoiningYear)
 # Imprimir el valor mínimo de la columna
 print(min)
 ```
+El menor año en que se contrató a un empleado fue el año 2012.
 
 **a.2.Primer Cuartil:**
 
@@ -98,6 +112,8 @@ q1 <- quantile(datos$JoiningYear, 0.25)
 # Imprimir el primer cuartil
 print(q1)
 ```
+El año 2013 es igual o mayor al 25% de los años e igual o menor al 75% de los años de contratación.
+
 **a.3. Mediana:**
 
 ```{r}
@@ -107,6 +123,8 @@ mediana_joining_year <- median(datos$JoiningYear)
 # Imprimir la mediana de la variable
 print(mediana_joining_year)
 ```
+El año 2015 es igual o mayor al 50% de los años e igual o menor al 50% de los años de contratación.
+
 **a.4.Tercer Cuartil:**
 ```{r}
 # Obtener el tercer cuartil
@@ -115,6 +133,8 @@ q3 <- quantile(datos$JoiningYear, 0.75)
 # Imprimir el tercer cuartil
 print(q3)
 ```
+El año 2017 es igual o mayor al 75% de los años e igual o menor al 25% de los años de contratación.
+
 **a.5.Valor Máximo:**
 ```{r}
 # Calcular el valor máximo de la variable
@@ -123,6 +143,7 @@ max <- max(datos$JoiningYear)
 # Imprimir el valor máximo de la variable
 print(max)
 ```
+El mayor año en que se contrató a un empleado fue el año 2018.
 
 **a.6.Recorrido (Rango):**
 ```{r}
@@ -132,6 +153,7 @@ rango <- max(datos$JoiningYear) - min(datos$JoiningYear)
 # Imprimir el rango de la variable "JoiningYear"
 print(rango)
 ```
+La diferencia entre el valor mayor y el valor menor es 6 (rango o recorrido).
 
 **a.7.Moda:**
 ```{r}
@@ -141,8 +163,9 @@ moda <- as.numeric(names(sort(-table(datos$JoiningYear))[1]))
 # Imprimir la moda de la variable
 print(moda)
 ```
+La moda es 2017 que es el valor que más se repite, es decir el que presenta la frecuencia más alta.
 
-**a.8.Frecuencia:**
+**a.8.Frecuencia Mayor:**
 ```{r}
 # Calcular la frecuencia de la variable
 frecuencia <- table(datos$JoiningYear)
@@ -154,6 +177,16 @@ print(frecuencia)
 frecuencia_maxima <- max(frecuencia)
 print(frecuencia_maxima)
 ```
+La frecuencia mayor es 1108 que determina la moda, es decir el valor que más se repite.
+
+**a.9.Media:**
+
+```{r}
+media <- mean(datos$JoiningYear)
+print(media)
+```
+La media es 2015.063, es decir si la distirbución es simétrica y no hay valores atípicos, en promedio, los empleados de la empresa son contratados el año 2015, sin embargo, si la distirbución es asimétrica o hay valores atípicos una medida más representativa sería la mediana.
+
 
 **b.Variable PaymentTier**
 
@@ -165,6 +198,7 @@ min <- min(datos$PaymentTier)
 # Imprimir el valor mínimo de la columna
 print(min)
 ```
+El menor código de categoría de pagos es 1.
 
 **b.2.Primer Cuartil:**
 
@@ -175,6 +209,8 @@ q1 <- quantile(datos$PaymentTier, 0.25)
 # Imprimir el primer cuartil
 print(q1)
 ```
+El valor 3 es igual o mayor al 25% de las categorías de pago e igual o menor al 75% de las categorías de pago.
+
 **b.3. Mediana:**
 
 ```{r}
@@ -184,6 +220,8 @@ mediana <- median(datos$PaymentTier)
 # Imprimir la mediana de la variable
 print(mediana)
 ```
+El valor 3 es igual o mayor al 50% de las categorías de pago e igual o menor al 50% de las categorías de pago.
+
 **b.4.Tercer Cuartil:**
 ```{r}
 # Obtener el tercer cuartil
@@ -192,6 +230,8 @@ q3 <- quantile(datos$PaymentTier, 0.75)
 # Imprimir el tercer cuartil
 print(q3)
 ```
+El valor 3 es igual o mayor al 75% de las categorías de pago e igual o menor al 25% de las categorías de pago.
+
 **b.5.Valor Máximo:**
 ```{r}
 # Calcular el valor máximo de la variable
@@ -200,6 +240,8 @@ max <- max(datos$PaymentTier)
 # Imprimir el valor máximo de la variable
 print(max)
 ```
+
+El mayor código de categoría de pagos es 3.
 
 **b.6.Recorrido (Rango):**
 ```{r}
@@ -210,6 +252,8 @@ rango <- max(datos$PaymentTier) - min(datos$PaymentTier)
 print(rango)
 ```
 
+La diferencia entre el valor mayor y el valor menor es 2 (rango o recorrido).
+
 **b.7.Moda:**
 ```{r}
 # Calcular la moda de la variable
@@ -218,6 +262,7 @@ moda <- as.numeric(names(sort(-table(datos$PaymentTier))[1]))
 # Imprimir la moda de la variable
 print(moda)
 ```
+La moda es 3 que es el valor que más se repite, es decir el que presenta la frecuencia más alta.
 
 **b.8.Frecuencia:**
 ```{r}
@@ -231,6 +276,16 @@ print(frecuencia)
 frecuencia_maxima <- max(frecuencia)
 print(frecuencia_maxima)
 ```
+La frecuencia mayor es 3492 que determina la moda, es decir el valor que más se repite.
+
+**b.9.Media:**
+
+```{r}
+media <- mean(datos$PaymentTier)
+print(media)
+```
+La media es 2.698259, es decir si la distribución es simétrica y no hay valores atípicos, en promedio, los empleados de la empresa se agrupan cerca de la categoría 3, sin embargo, si la distribución es asimétrica o hay valores atípicos una medida más representativa sería la mediana.
+
 
 **c.Variable Age**
 
@@ -242,6 +297,7 @@ min <- min(datos$Age        )
 # Imprimir el valor mínimo de la columna
 print(min)
 ```
+La menor edad de un empleado es 22 años.
 
 **c.2.Primer Cuartil:**
 
@@ -252,6 +308,8 @@ q1 <- quantile(datos$Age        , 0.25)
 # Imprimir el primer cuartil
 print(q1)
 ```
+La edad 26 es igual o mayo al 25% de las edades de los empleados e igual o menor al 75% de las edades de los empleados.
+
 **c.3. Mediana:**
 
 ```{r}
@@ -261,14 +319,18 @@ mediana <- median(datos$Age)
 # Imprimir la mediana de la variable
 print(mediana)
 ```
+La edad 28 es igual o mayo al 50% de las edades de los empleados e igual o menor al 50% de las edades de los empleados.
+
 **c.4.Tercer Cuartil:**
 ```{r}
 # Obtener el tercer cuartil
-q3 <- quantile(datos$PaymentTier, 0.75)
+q3 <- quantile(datos$Age, 0.75)
 
 # Imprimir el tercer cuartil
 print(q3)
 ```
+La edad 32 es igual o mayo al 75% de las edades de los empleados e igual o menor al 25% de las edades de los empleados.
+
 **c.5.Valor Máximo:**
 ```{r}
 # Calcular el valor máximo de la variable
@@ -277,6 +339,7 @@ max <- max(datos$Age        )
 # Imprimir el valor máximo de la variable
 print(max)
 ```
+La mayor edad de un empleado es 41 años.
 
 **c.6.Recorrido (Rango):**
 ```{r}
@@ -286,6 +349,7 @@ rango <- max(datos$Age) - min(datos$Age)
 # Imprimir el rango de la variable
 print(rango)
 ```
+La diferencia entre el valor mayor de las edades y el valor menor es 19 (rango o recorrido).
 
 **c.7.Moda:**
 ```{r}
@@ -295,6 +359,7 @@ moda <- as.numeric(names(sort(-table(datos$Age))[1]))
 # Imprimir la moda de la variable
 print(moda)
 ```
+La moda es 26 que es el valor que más se repite, es decir el que presenta la frecuencia más alta.
 
 **c.8.Frecuencia:**
 ```{r}
@@ -308,6 +373,17 @@ print(frecuencia)
 frecuencia_maxima <- max(frecuencia)
 print(frecuencia_maxima)
 ```
+La frecuencia mayor es 645 que determina la moda, es decir el valor que más se repite.
+
+**c.9.Media:**
+
+```{r}
+media <- mean(datos$Age)
+print(media)
+```
+La media es 29.39329, es decir si la distribución es simétrica y no hay valores atípicos, en promedio, los empleados de la empresa se agrupan alrededor de la edad de 29 años, sin embargo, si la distribución es asimétrica o hay valores atípicos una medida más representativa sería la mediana.
+
+
 **d.Variable ExperienceInCurrentDomain**
 
 **d.1.Valor Mínimo:**
@@ -318,6 +394,7 @@ min <- min(datos$ExperienceInCurrentDomain)
 # Imprimir el valor mínimo de la columna
 print(min)
 ```
+El menor valor en años de experiencia de un empleado es 0.
 
 **d.2.Primer Cuartil:**
 
@@ -328,6 +405,8 @@ q1 <- quantile(datos$ExperienceInCurrentDomain, 0.25)
 # Imprimir el primer cuartil
 print(q1)
 ```
+El valor 2 años de experiencia de un empleado es igual o mayor al 25% de los años de experiencia e igual o menor al 75% de los años de experiencia de otros empleados de la empresa.
+
 **d.3. Mediana:**
 
 ```{r}
@@ -337,6 +416,9 @@ mediana <- median(datos$ExperienceInCurrentDomain)
 # Imprimir la mediana de la variable
 print(mediana)
 ```
+El valor 3 años de experiencia de un empleado es igual o mayor al 50% de los años de experiencia e igual o menor al 50% de los años de experiencia de otros empleados de la empresa.
+
+
 **d.4.Tercer Cuartil:**
 ```{r}
 # Obtener el tercer cuartil
@@ -345,6 +427,8 @@ q3 <- quantile(datos$ExperienceInCurrentDomain, 0.75)
 # Imprimir el tercer cuartil
 print(q3)
 ```
+El valor 4 años de experiencia de un empleado es igual o mayor al 75% de los años de experiencia e igual o menor al 25% de los años de experiencia de otros empleados de la empresa.
+
 **d.5.Valor Máximo:**
 ```{r}
 # Calcular el valor máximo de la variable
@@ -353,6 +437,7 @@ max <- max(datos$ExperienceInCurrentDomain)
 # Imprimir el valor máximo de la variable
 print(max)
 ```
+El mayor valor en años de experiencia de un empleado es 7.
 
 **d.6.Recorrido (Rango):**
 ```{r}
@@ -362,6 +447,7 @@ rango <- max(datos$ExperienceInCurrentDomain) - min(datos$ExperienceInCurrentDom
 # Imprimir el rango de la variable
 print(rango)
 ```
+La diferencia entre el mayor valor en años de experiencia y el valor menor es 7 (rango o recorrido).
 
 **d.7.Moda:**
 ```{r}
@@ -371,6 +457,8 @@ moda <- as.numeric(names(sort(-table(datos$ExperienceInCurrentDomain))[1]))
 # Imprimir la moda de la variable
 print(moda)
 ```
+La moda es 2 años de experiencia que es el valor que más se repite, es decir el que presenta la frecuencia más alta.
+
 
 **d.8.Frecuencia:**
 ```{r}
@@ -384,7 +472,19 @@ print(frecuencia)
 frecuencia_maxima <- max(frecuencia)
 print(frecuencia_maxima)
 ```
-**e.Variable LeaveOrNot**
+La frecuencia mayor es 1087 que determina la moda, es decir el valor que más se repite.
+
+**d.9.Media:**
+
+```{r}
+media <- mean(datos$ExperienceInCurrentDomain)
+print(media)
+```
+
+La media es 2.905652, es decir si la distribución es simétrica y no hay valores atípicos, en promedio, los empleados de la empresa tienen alrededor de 3 años de experiencia, sin embargo, si la distribución es asimétrica o hay valores atípicos una medida más representativa sería la mediana.
+
+
+**e.Variable LeaveOrNot (Variable objetivo)**
 
 **e.1.Valor Mínimo:**
 ```{r}
@@ -394,6 +494,7 @@ min <- min(datos$LeaveOrNot)
 # Imprimir el valor mínimo de la columna
 print(min)
 ```
+El menor código es 0 que representa a "No renunció".
 
 **e.2.Primer Cuartil:**
 
@@ -404,6 +505,8 @@ q1 <- quantile(datos$LeaveOrNot, 0.25)
 # Imprimir el primer cuartil
 print(q1)
 ```
+Los que no renunciaron son igual o mayor al 25% de los valores objetivo e igual o menor al 75% de los valores objetivo.
+
 **e.3. Mediana:**
 
 ```{r}
@@ -413,6 +516,8 @@ mediana <- median(datos$LeaveOrNot)
 # Imprimir la mediana de la variable
 print(mediana)
 ```
+Los que no renunciaron son igual o mayor al 50% de los valores objetivo e igual o menor al 50% de los valores objetivo.
+
 **e.4.Tercer Cuartil:**
 ```{r}
 # Obtener el tercer cuartil
@@ -421,6 +526,8 @@ q3 <- quantile(datos$LeaveOrNot, 0.75)
 # Imprimir el tercer cuartil
 print(q3)
 ```
+Los que sí renunciaron son igual o mayor al 75% de los valores objetivo e igual o menor al 25% de los valores objetivo.
+
 **e.5.Valor Máximo:**
 ```{r}
 # Calcular el valor máximo de la variable
@@ -429,6 +536,7 @@ max <- max(datos$LeaveOrNot)
 # Imprimir el valor máximo de la variable
 print(max)
 ```
+El menor código es 1 que representa a "Sí renunció".
 
 **e.6.Recorrido (Rango):**
 ```{r}
@@ -438,6 +546,7 @@ rango <- max(datos$LeaveOrNot) - min(datos$LeaveOrNot)
 # Imprimir el rango de la variable
 print(rango)
 ```
+La diferencia entre el valor mayor y el valor menor es 1 (rango o recorrido).
 
 **e.7.Moda:**
 ```{r}
@@ -447,6 +556,7 @@ moda <- as.numeric(names(sort(-table(datos$LeaveOrNot))[1]))
 # Imprimir la moda de la variable
 print(moda)
 ```
+La moda es 0 (Los que no renunciaron) que es el valor que más se repite, es decir el que presenta la frecuencia más alta.
 
 **e.8.Frecuencia:**
 ```{r}
@@ -460,10 +570,19 @@ print(frecuencia)
 frecuencia_maxima <- max(frecuencia)
 print(frecuencia_maxima)
 ```
+La frecuencia mayor es 3053 que determina la moda, es decir el valor que más se repite.
+
+**e.9.Media:**
+
+```{r}
+media <- mean(datos$LeaveOrNot)
+print(media)
+```
+La media es 0.3438642, es decir si la distribución es simétrica y no hay valores atípicos, en promedio, los empleados de la empresa se agrupan alreder del valor 0 (Sí renunciaron), sin embargo, si la distribución es asimétrica o hay valores atípicos una medida más representativa sería la mediana.
 
 **1.1.2 Variables Categóricas**
 
-Obtenemos los estadísticos descriptivos de las variables categóricas
+Obtenemos los estadísticos descriptivos de las variables categóri, aquellas que no están representadas de forma numérica:
 
 ```{r}
 # Seleccionar solo las columnas categóricas
@@ -489,6 +608,8 @@ frecuencia <- table(datos$Education)
 # Imprimir los valores y sus frecuencias
 print(frecuencia)
 ```
+La frecuencia mayor es 3601 que determina la moda, es decir el valor que más se repite.
+
 **a.2.Moda:**
 ```{r}
 # Calcular la frecuencia de cada valor en la variable categórica
@@ -500,6 +621,8 @@ valor_mas_repetido <- names(frecuencia)[which.max(frecuencia)]
 # Imprimir el valor que más se repite
 print(valor_mas_repetido)
 ```
+La moda es "Bachelors" que es el valor que más se repite, es decir el que presenta la frecuencia más alta.
+
 **b.Variable City**
 
 **b.1.Frecuencia:**
@@ -511,6 +634,8 @@ frecuencia <- table(datos$City)
 # Imprimir los valores y sus frecuencias
 print(frecuencia)
 ```
+La frecuencia mayor es 2228 que determina la moda, es decir el valor que más se repite.
+
 **b.2.Moda:**
 ```{r}
 # Calcular la frecuencia de cada valor en la variable categórica
@@ -522,6 +647,8 @@ valor_mas_repetido <- names(frecuencia)[which.max(frecuencia)]
 # Imprimir el valor que más se repite
 print(valor_mas_repetido)
 ```
+La moda es "Bangalore" que es el valor que más se repite, es decir el que presenta la frecuencia más alta.
+
 **c.Variable Gender**
 
 **c.1.Frecuencia:**
@@ -533,6 +660,8 @@ frecuencia <- table(datos$Gender)
 # Imprimir los valores y sus frecuencias
 print(frecuencia)
 ```
+La frecuencia mayor es 2778 que determina la moda, es decir el valor que más se repite.
+
 **c.2.Moda:**
 ```{r}
 # Calcular la frecuencia de cada valor en la variable categórica
@@ -544,6 +673,9 @@ valor_mas_repetido <- names(frecuencia)[which.max(frecuencia)]
 # Imprimir el valor que más se repite
 print(valor_mas_repetido)
 ```
+La moda es "Male" que es el valor que más se repite, es decir el que presenta la frecuencia más alta.
+
+
 **d.Variable EverBenched**
 
 **d.1.Frecuencia:**
@@ -555,6 +687,8 @@ frecuencia <- table(datos$EverBenched)
 # Imprimir los valores y sus frecuencias
 print(frecuencia)
 ```
+La frecuencia mayor es 4175 que determina la moda, es decir el valor que más se repite.
+
 **d.2.Moda:**
 ```{r}
 # Calcular la frecuencia de cada valor en la variable categórica
@@ -566,8 +700,13 @@ valor_mas_repetido <- names(frecuencia)[which.max(frecuencia)]
 # Imprimir el valor que más se repite
 print(valor_mas_repetido)
 ```
+La moda es "No" que es el valor que más se repite, es decir el que presenta la frecuencia más alta.
+
 
 ## 1.2. Dispersión
+
+Las medidas de dispersión nos indican el grado de variabilidad de los valores, si el grado de variabilidad o dispersión es significativo entonces una mejor medida sería la mediana, en cambio cuando la dispersión o variabilidad de los valores no es no es significativa una mejor medida sería la media.
+
 **1.1.1 Variables Numéricas**
 
 ```{r}
@@ -595,6 +734,8 @@ estadisticos_dispersion <- data.frame(
 # Imprimir los estadísticos de dispersión
 print(estadisticos_dispersion)
 ```
+Se puede apreciar que las variables Age tiene la mayor varianza lo que puede indicar la presencia de valores atípicos (outliers).
+
 
 ## 2. Análisis Exploratorio de Datos (EDA)
 
